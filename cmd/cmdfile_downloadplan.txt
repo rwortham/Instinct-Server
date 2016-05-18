@@ -1,0 +1,33 @@
+// Instinct Robot initialisation commands - use plan already within robot
+// comment lines prefixed with // are not sent to the robot
+//
+// Stop plan execution - this leaves more CPU time to load the plan
+RATE 0
+// Turn on serial and wifi reporting
+REPORT 1 1 0 0
+// Ask the robot what the date and time is
+TIME
+// Stop the robot's motors
+STOP
+HSTOP
+// Load the robot's plan from the inst file
+//@ ../Instinct-Dia/Head_Detect_Human.inst
+//@ ../Instinct-Dia/Plan2.inst
+@ ../Instinct-Dia/Plan4.inst
+PLAN I S 4
+// Ask the robot to show us its new plan
+PLAN I R
+DUMP
+// allow the head to start scanning
+HSTART
+// Set the robot plan rate to run 7 times per second
+RATE 7
+// calibrate the corner sensors - assumes the robot is in free space
+CAL
+// Turn off the local serial reporting as we will log output
+// also turn on sensor reporting
+REPORT 0 1 1 1
+// Turn on full plan monitoring - may need tuning
+PLAN M G 1 1 1 1 1 1
+// Start the robot's motors. Off we go!
+START
