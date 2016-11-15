@@ -12,6 +12,8 @@ Version
 ------
 1.0.1 - First public upload
 
+1.1.0 - Updates to send Instinct plan element names to R5. Also enhanced to delay sending cmdFile commands until R5 is ready for them.
+
 
 License
 ----

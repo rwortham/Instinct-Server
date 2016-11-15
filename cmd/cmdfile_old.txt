@@ -13,15 +13,16 @@ HSTOP
 // Load the robot's plan from the inst file
 //@ ../Instinct-Dia/Head_Detect_Human.inst
 //@ ../Instinct-Dia/Plan2.inst
-@ ../Instinct-Dia/Plan4.inst
-PLAN I S 4
+//@ ../Instinct-Dia/Plan4.inst
+@ ../Instinct-Dia/Plan5.inst
+PLAN I S 5
 // Ask the robot to show us its new plan
 PLAN I R
 DUMP
 // allow the head to start scanning
 HSTART
-// Set the robot plan rate to run 7 times per second
-RATE 7
+// Set the robot plan rate to run 8 times per second
+RATE 8
 // calibrate the corner sensors - assumes the robot is in free space
 CAL
 // Turn off the local serial reporting as we will log output

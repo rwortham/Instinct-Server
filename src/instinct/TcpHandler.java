@@ -31,7 +31,8 @@ public class TcpHandler implements Runnable{
 	protected FileOutputStream ofs = null;
 	protected PrintWriter oss = null;
 	protected boolean logDisplay = false;
-    protected boolean isStopped    = false;
+    protected  boolean isStopped    = false;
+    protected  boolean robotReady = false; 
 	protected HashMap<Integer, String> planElements = new HashMap<Integer, String>(255);
 	protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
 	protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
@@ -66,13 +67,13 @@ public class TcpHandler implements Runnable{
 				addRobotAction(cmdLine.substring(cmd.length()).trim());
 			else if (cmdLine.startsWith(cmd = "RSENSE"))
 				addRobotSense(cmdLine.substring(cmd.length()).trim());
-			else // don't send PELEM, RACTION, RSENSE to the robot
-			{
+//			else // don't send PELEM, RACTION, RSENSE to the robot
+//			{
 				oss.println(cmdLine);
 				return true;
-			}
+//			}
 		}
-		return false;
+//		return false;
 	}
 
 	public synchronized void toggleLogDisplay()
@@ -86,7 +87,6 @@ public class TcpHandler implements Runnable{
 			BufferedReader iss = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			oss = new PrintWriter(clientSocket.getOutputStream(), true);
 
-			sendFile(cmdFileName);
 			
 			// now loop, reading lines from the socket and writing them to the log file
 			ofs = new FileOutputStream(new File(logFileName), true);
@@ -101,6 +101,15 @@ public class TcpHandler implements Runnable{
 		    while (!isStopped && (line = iss.readLine()) != null)
 			{
 				boolean bEcho = true; // default is to echo lines from the robot back to the console
+				
+				if (!robotReady) // only send the cmdFile when the robot is ready
+				{
+					if (line.contains("Robot Running"))
+					{
+						robotReady = true;
+						sendFile(cmdFileName);
+					}
+				}
 				String[] elements = line.split("[ ]+");
 				if ((elements.length > 3) && (elements[1].length() == 1)) // check its a single character
 				{
@@ -257,7 +266,7 @@ public class TcpHandler implements Runnable{
 						{
 							// add a short delay to allow the robot to process each command, otherwise the robot's serial buffers overrun
 							try {
-								Thread.sleep(200); // limit to 5 commands per second
+								Thread.sleep(100); // limit to 10 commands per second
 							} catch(InterruptedException ex) {
 								Thread.currentThread().interrupt();
 							}
