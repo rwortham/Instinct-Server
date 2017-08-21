@@ -262,7 +262,15 @@ public class TcpHandler implements Runnable{
 				{
 					if ((cmdLine.length() > 0) && !cmdLine.startsWith("//")) // lines starting with // are comments in the command file
 					{
-						if ( sendCmd(cmdLine) ) // if we sent the command to the robot then delay
+						// new server only versions of PELEM, RACTION, RSENSE prefixed by !
+						String cmd;
+						if (cmdLine.startsWith(cmd = "!PELEM"))
+							addPlanElement(cmdLine.substring(cmd.length()).trim());
+						else if (cmdLine.startsWith(cmd = "!RACTION"))
+							addRobotAction(cmdLine.substring(cmd.length()).trim());
+						else if (cmdLine.startsWith(cmd = "!RSENSE"))
+							addRobotSense(cmdLine.substring(cmd.length()).trim());
+						else if ( sendCmd(cmdLine) ) // if we sent the command to the robot then delay
 						{
 							// add a short delay to allow the robot to process each command, otherwise the robot's serial buffers overrun
 							try {

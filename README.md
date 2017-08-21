@@ -14,12 +14,13 @@ Version
 
 1.1.0 - Updates to send Instinct plan element names to R5. Also enhanced to delay sending cmdFile commands until R5 is ready for them.
 
+1.1.1 - New server only versions of PELEM, RACTION, RSENSE prefixed by !
 
 License
 ----
 The R5 Robot library is Open Source Software distributed under the GNU GPL licence.
 
-Copyright (c) 2015 Robert H. Wortham
+Copyright (c) 2015-17 Robert H. Wortham
 
    [Instinct Planner]: <http://www.robwortham.com/instinct-planner/>
    [R5 Robot]: <http://www.robwortham.com/r5-robot/>
