@@ -1,22 +1,12 @@
 // Instinct Robot initialisation commands - use plan already within robot
 // comment lines prefixed with // are not sent to the robot
 //
-// turn off sensor reporting and monitoring
-RATE 0
-PLAN M G 0 0 0 0 0 0
-REPORT 0 1 0 0 0 0
 TIME
 // Ask the robot to show us its plan ID
 PLAN I R
-// clear the names buffer
-// CNAMES
-// need to run in the server names file so Instinct-Server can decode the monitor stream
-@ ../Instinct-Dia/Plan6-Server-Names.inst
-//@ ../Instinct-Dia/Plan6.inst
-//SPLAN
-REPORT 0 1 1 1 1 0
+@ cmd/DiaPlan3.inst
+// Turn off the local serial reporting as we will log output
+// also turn on sensor reporting
+REPORT 0 1 1 1
+// Turn on full plan monitoring - may need tuning
 PLAN M G 1 1 1 1 1 1
-RATE 8
-//STOP
-//HSTOP
-//SPLAN

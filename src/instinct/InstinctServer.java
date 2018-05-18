@@ -22,10 +22,14 @@ import java.io.*;
 public class InstinctServer {
 
 	public static void main(String[] args) {
-		ThreadedServer server = new ThreadedServer(3000);
+		RobotStreamData robotIncomingMessage = new RobotStreamData();
+		ThreadedServer server = new ThreadedServer(3000, robotIncomingMessage);
+        ThreadedEnquiryServer enquiryServer = new ThreadedEnquiryServer(3001, robotIncomingMessage);
+
 		System.out.println("Instinct Server by Rob Wortham"); 
 
 		new Thread(server).start();
+        new Thread(enquiryServer).start();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		String str;

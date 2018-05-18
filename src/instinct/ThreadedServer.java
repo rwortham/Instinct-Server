@@ -29,8 +29,10 @@ public class ThreadedServer implements Runnable{
     protected boolean		isStopped    = false;
     protected Thread		runningThread= null;
     protected TcpHandler	lastHandler = null;
+    protected RobotStreamData robotIncomingString = null;
 
-    public ThreadedServer(int port){
+    public ThreadedServer(int port, RobotStreamData robotIncomingString){
+        this.robotIncomingString = robotIncomingString;
         this.serverPort = port;
     }
 
@@ -43,7 +45,9 @@ public class ThreadedServer implements Runnable{
 	    while(! isStopped()){
 	        Socket clientSocket = null;
 	        try {
+                System.out.println("Waiting for connection(s).");
 	            clientSocket = this.serverSocket.accept();
+                System.out.println("Accepted a connection");
 	        } catch (IOException e) {
 	            if(isStopped()) {
 	                System.out.println("Server Stopped.") ;
@@ -51,10 +55,12 @@ public class ThreadedServer implements Runnable{
 	            }
 	            throw new RuntimeException("Error accepting client connection", e);
 	        }
-	        // each handler gets its own log file
-	        lastHandler = new TcpHandler(clientSocket, "logs/logfile"+nLogFileCount+".txt", "cmd/cmdfile.txt");
-	        new Thread(lastHandler).start();
-	        nLogFileCount++;
+
+            Logger logger = new Logger("logs/logfile"+nLogFileCount+".txt");
+            // each handler gets its own log file
+            lastHandler = new TcpHandler(clientSocket, logger.getFullFileName(), "cmd/cmdfile.txt", robotIncomingString);
+            new Thread(lastHandler).start();
+            nLogFileCount++;
 	    }
 	    System.out.println("Server Stopped.") ;
 	}
