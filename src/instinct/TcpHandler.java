@@ -99,10 +99,8 @@ public class TcpHandler implements Runnable{
 			// to resolve node, sense and action IDs to their respective names
 		    Pattern p = Pattern.compile("[ESPFZ]");
 		    String[] comparators = {"EQ","NE", "GT", "LT", "TR", "FL"};
-
 		    while (!isStopped && (line = iss.readLine()) != null)
 			{
-				//System.out.println(">>>> in while"+iss.readLine());
 				boolean bEcho = true; // default is to echo lines from the robot back to the console
 				
 				if (!robotReady) // only send the cmdFile when the robot is ready
@@ -179,19 +177,10 @@ public class TcpHandler implements Runnable{
 				}
 				
 				line = line.trim(); // remove any trailing spaces before logging
-
 				if (bEcho)
 					System.out.println(line);
-
-//				TODO: Consider adding a small delay to the incoming RobotWorld data
-//				try {
-//					Thread.sleep(100);
-//				} catch(InterruptedException ex) {
-//					Thread.currentThread().interrupt();
-//				}
-
+				
 				robotStreamData.setRobotIncomingString(line);
-				//System.out.println(" >>>> Receiving from RobotWorld: "+ robotStreamData.getRobotIncomingString());
 
 				// write all log lines to the log file except blank ones
 				if (!line.equals(""))

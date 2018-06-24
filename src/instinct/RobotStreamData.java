@@ -1,7 +1,5 @@
 package instinct;
 
-import java.util.HashMap;
-
 public class RobotStreamData {
 
     protected static volatile String ROBOT_INCOMING_STRING = null;
