@@ -102,19 +102,12 @@ public class TcpHandlerEnquiry implements Runnable{
 
             while (!isStopped && (line = iss.readLine()) != null)
             {
-                List<String> request = Arrays.asList(line.split(":"));
                 String robotStreamDataLine = robotStreamData.getRobotIncomingString();
 
                 if(robotStreamDataLine == null){
                     oss.println("No Robot Connected to Server!");
                 }else{
-                    boolean robotStreamDataContainsRequestKeywords = request.stream().anyMatch(robotStreamDataLine::contains);
-
-                    if(robotStreamDataContainsRequestKeywords){
-                        oss.println(robotStreamDataLine);
-                    }else{
-                        oss.println("doNothing");
-                    }
+                    oss.println(robotStreamDataLine);
                 }
 
                 boolean bEcho = true; // default is to echo lines from the robot back to the console
