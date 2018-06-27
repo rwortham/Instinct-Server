@@ -100,8 +100,12 @@ public class TcpHandlerEnquiry implements Runnable{
             Pattern p = Pattern.compile("[ESPFZ]");
             String[] comparators = {"EQ","NE", "GT", "LT", "TR", "FL"};
 
-            while (!isStopped && (line = iss.readLine()) != null)
+            while (!isStopped )
             {
+
+                try {
+                    Thread.sleep(50);
+
                 String robotStreamDataLine = robotStreamData.getRobotIncomingString();
 
                 if(robotStreamDataLine == null){
@@ -114,108 +118,112 @@ public class TcpHandlerEnquiry implements Runnable{
 
                 if (!robotReady) // only send the cmdFile when the robot is ready
                 {
-                    if (line.contains("Robot Running"))
-                    {
-                        robotReady = true;
-                        sendFile(cmdFileName);
-                    }
+//                    if (line.contains("Robot Running"))
+//                    {
+//                        robotReady = true;
+//                        sendFile(cmdFileName);
+//                    }
                 }
-                String[] elements = line.split("[ ]+");
-                if ((elements.length > 3) && (elements[1].length() == 1)) // check its a single character
-                {
-                    if (elements[1].equals("X")) // this is a sensor log line
-                    {
-                        // not doing anything with these at present, but don't send to console
-                        bEcho = logDisplay;
-                    }
-                    else if (elements[1].equals("Y")) // this is a log line from the head cell matrix
-                    {
-                        // not doing anything with these at present, but don't send to console
-                        bEcho = logDisplay;
-                    }
-                    else if (elements[1].equals("R")) // this line is a log line from a releaser
-                    {
-                        bEcho = logDisplay;
+//                String[] elements = line.split("[ ]+");
+//                if ((elements.length > 3) && (elements[1].length() == 1)) // check its a single character
+//                {
+//                    if (elements[1].equals("X")) // this is a sensor log line
+//                    {
+//                        // not doing anything with these at present, but don't send to console
+//                        bEcho = logDisplay;
+//                    }
+//                    else if (elements[1].equals("Y")) // this is a log line from the head cell matrix
+//                    {
+//                        // not doing anything with these at present, but don't send to console
+//                        bEcho = logDisplay;
+//                    }
+//                    else if (elements[1].equals("R")) // this line is a log line from a releaser
+//                    {
+//                        bEcho = logDisplay;
+//
+//                        try
+//                        {
+//                            Integer val = new Integer(elements[2]);
+//                            String name = robotSenses.get(val);
+//                            if (!(name == null) && (name.length() > 0))
+//                                elements[2] = name;
+//                            val = new Integer(elements[3]); // this is the Comparator type
+//                            if (val < 6)
+//                                elements[3] = comparators[val];
+//                            line = "";
+//                            for (String str: elements)
+//                            {
+//                                line = line + str + " ";
+//                            }
+//                        }
+//                        catch (NumberFormatException e)
+//                        {
+//                            System.err.println("Error processing Releaser log entry " + line);
+//                        }
+//                    }
+//                    else
+//                    {
+//                        Matcher m = p.matcher(elements[1]);
+//                        if (m.find()) // this is a log line from a plan element
+//                        {
+//                            bEcho = logDisplay;
+//
+//                            try
+//                            {
+//                                Integer val = new Integer(elements[3]);
+//                                String name = planElements.get(val);
+//                                if (!(name == null) && (name.length() > 0))
+//                                    elements[3] = name;
+//
+//                                line = "";
+//                                for (String str: elements)
+//                                {
+//                                    line = line + str + " ";
+//                                }
+//                            }
+//                            catch (NumberFormatException e)
+//                            {
+//                                System.err.println("Error processing Element log entry " + line);
+//                            }
+//                        }
+//                    }
+//                }
 
-                        try
-                        {
-                            Integer val = new Integer(elements[2]);
-                            String name = robotSenses.get(val);
-                            if (!(name == null) && (name.length() > 0))
-                                elements[2] = name;
-                            val = new Integer(elements[3]); // this is the Comparator type
-                            if (val < 6)
-                                elements[3] = comparators[val];
-                            line = "";
-                            for (String str: elements)
-                            {
-                                line = line + str + " ";
-                            }
-                        }
-                        catch (NumberFormatException e)
-                        {
-                            System.err.println("Error processing Releaser log entry " + line);
-                        }
-                    }
-                    else
-                    {
-                        Matcher m = p.matcher(elements[1]);
-                        if (m.find()) // this is a log line from a plan element
-                        {
-                            bEcho = logDisplay;
-
-                            try
-                            {
-                                Integer val = new Integer(elements[3]);
-                                String name = planElements.get(val);
-                                if (!(name == null) && (name.length() > 0))
-                                    elements[3] = name;
-
-                                line = "";
-                                for (String str: elements)
-                                {
-                                    line = line + str + " ";
-                                }
-                            }
-                            catch (NumberFormatException e)
-                            {
-                                System.err.println("Error processing Element log entry " + line);
-                            }
-                        }
-                    }
-                }
-
-                line = line.trim(); // remove any trailing spaces before logging
+//                line = line.trim(); // remove any trailing spaces before logging
 
                 // write all log lines to the log file except blank ones
-                if (!line.equals(""))
-                {
-                    bw.println(line);
-                    bw.flush();
-                }
+//                if (!line.equals(""))
+//                {
+//                    bw.println(line);
+//                    bw.flush();
+//                }
                 // provide a way to close gracefully
-                if (line.equals("bye"))
-                {
-/*****					// temporary code to write out hashmap values on exit for testing
- for (Integer key: planElements.keySet())
- {
- String value = planElements.get(key);
- System.out.println(key + " " + value);
- }
- for (Integer key: robotActions.keySet())
- {
- String value = robotActions.get(key);
- System.out.println(key + " " + value);
- }
- for (Integer key: robotSenses.keySet())
- {
- String value = robotSenses.get(key);
- System.out.println(key + " " + value);
- }
- *******/
+//                if (line.equals("bye"))
+//                {
+///*****					// temporary code to write out hashmap values on exit for testing
+// for (Integer key: planElements.keySet())
+// {
+// String value = planElements.get(key);
+// System.out.println(key + " " + value);
+// }
+// for (Integer key: robotActions.keySet())
+// {
+// String value = robotActions.get(key);
+// System.out.println(key + " " + value);
+// }
+// for (Integer key: robotSenses.keySet())
+// {
+// String value = robotSenses.get(key);
+// System.out.println(key + " " + value);
+// }
+// *******/
+//
+//                    System.out.println("bye received. Closing socket.");
+//                    break;
+//                }
 
-                    System.out.println("bye received. Closing socket.");
-                    break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
 
