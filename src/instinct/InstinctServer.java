@@ -17,14 +17,19 @@
 
 package instinct;
 import java.io.*;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 // a simple command line class to run the InstinctServer
 public class InstinctServer {
 
 	public static void main(String[] args) {
 		RobotStreamData robotIncomingMessage = new RobotStreamData();
-		ThreadedServer server = new ThreadedServer(3000, robotIncomingMessage);
-        ThreadedEnquiryServer enquiryServer = new ThreadedEnquiryServer(3001, robotIncomingMessage);
+
+		Queue<String> queue = new ConcurrentLinkedQueue<>();
+
+		ThreadedServer server = new ThreadedServer(3000, robotIncomingMessage, queue); //producer
+        ThreadedEnquiryServer enquiryServer = new ThreadedEnquiryServer(3001, robotIncomingMessage, queue); //consumer
 
 		System.out.println("Instinct Server by Rob Wortham"); 
 

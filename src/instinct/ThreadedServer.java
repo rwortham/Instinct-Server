@@ -20,19 +20,22 @@ package instinct;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Queue;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedServer implements Runnable{
 
-    protected int			serverPort   = 1024;
+	private final Queue<String> queue;
+	protected int			serverPort   = 1024;
     protected ServerSocket	serverSocket = null;
     protected boolean		isStopped    = false;
     protected Thread		runningThread= null;
     protected TcpHandler	lastHandler = null;
     protected RobotStreamData robotIncomingString = null;
 
-    public ThreadedServer(int port, RobotStreamData robotIncomingString){
+    public ThreadedServer(int port, RobotStreamData robotIncomingString, Queue<String> queue){
         this.robotIncomingString = robotIncomingString;
+        this.queue = queue;
         this.serverPort = port;
     }
 
@@ -58,7 +61,7 @@ public class ThreadedServer implements Runnable{
 
             Logger logger = new Logger("logs/logfile"+nLogFileCount+".txt");
             // each handler gets its own log file
-            lastHandler = new TcpHandler(clientSocket, logger.getFullFileName(), "cmd/cmdfile.txt", robotIncomingString);
+            lastHandler = new TcpHandler(clientSocket, logger.getFullFileName(), "cmd/cmdfile.txt", robotIncomingString, queue);
             new Thread(lastHandler).start();
             nLogFileCount++;
 	    }

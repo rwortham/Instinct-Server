@@ -37,17 +37,19 @@ public class TcpHandlerEnquiry implements Runnable{
     protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
     protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
     protected RobotStreamData robotStreamData = null;
+    protected Queue queue = null;
 
     public TcpHandlerEnquiry(Socket clientSocket, String logFileName) {
         this.clientSocket = clientSocket;
         this.logFileName   = logFileName;
     }
-    public TcpHandlerEnquiry(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData)
+    public TcpHandlerEnquiry(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData, Queue queue)
     {
         this.clientSocket = clientSocket;
         this.logFileName   = logFileName;
         this.cmdFileName   = cmdFileName;
         this.robotStreamData = robotStreamData;
+        this.queue = queue;
     }
 
     // process command lines and send them to the client. Handles @ includefile directives
@@ -106,7 +108,8 @@ public class TcpHandlerEnquiry implements Runnable{
                 try {
                     Thread.sleep(50);
 
-                String robotStreamDataLine = robotStreamData.getRobotIncomingString();
+//                String robotStreamDataLine = robotStreamData.getRobotIncomingString();
+                String robotStreamDataLine = (String) queue.poll();
 
                 if(robotStreamDataLine == null){
                     oss.println("No Robot Connected to Server!");

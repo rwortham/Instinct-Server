@@ -37,17 +37,19 @@ public class TcpHandler implements Runnable{
 	protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
 	protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
 	protected RobotStreamData robotStreamData = null;
+	protected Queue queue = null;
 
 	public TcpHandler(Socket clientSocket, String logFileName) {
 			this.clientSocket = clientSocket;
 			this.logFileName   = logFileName;		
 	}
-	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData)
+	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData, Queue queue)
 	{
 		this.clientSocket = clientSocket;
 		this.logFileName   = logFileName;		
 		this.cmdFileName   = cmdFileName;
 		this.robotStreamData = robotStreamData;
+		this.queue = queue;
 	}
 
 	// process command lines and send them to the client. Handles @ includefile directives
@@ -179,7 +181,8 @@ public class TcpHandler implements Runnable{
 				line = line.trim(); // remove any trailing spaces before logging
 				if (bEcho)
 					System.out.println(line);
-				
+
+				queue.add(line);
 				robotStreamData.setRobotIncomingString(line);
 
 				// write all log lines to the log file except blank ones
