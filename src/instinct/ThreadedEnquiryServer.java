@@ -20,12 +20,12 @@ package instinct;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedEnquiryServer implements Runnable{
 
-    private final Queue<String> queue;
+    private final ConcurrentLinkedDeque<String> queue;
     protected int			serverPort   = 1024;
     protected ServerSocket	serverSocket = null;
     protected boolean		isStopped    = false;
@@ -33,7 +33,7 @@ public class ThreadedEnquiryServer implements Runnable{
     protected TcpHandlerEnquiry	lastHandler = null;
     protected RobotStreamData robotIncomingString = null;
 
-    public ThreadedEnquiryServer(int port, RobotStreamData robotIncomingString, Queue<String> queue){
+    public ThreadedEnquiryServer(int port, RobotStreamData robotIncomingString, ConcurrentLinkedDeque<String> queue){
         this.robotIncomingString = robotIncomingString;
         this.serverPort = port;
         this.queue = queue;

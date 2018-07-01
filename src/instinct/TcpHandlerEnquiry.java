@@ -18,9 +18,10 @@
 package instinct;
 
 import java.io.*;
-import java.util.*;
-import java.net.*;
-import java.util.regex.*;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.regex.Pattern;
 
 // class to handle comms over a particular tcp stream
 public class TcpHandlerEnquiry implements Runnable{
@@ -37,13 +38,13 @@ public class TcpHandlerEnquiry implements Runnable{
     protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
     protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
     protected RobotStreamData robotStreamData = null;
-    protected Queue queue = null;
+    protected ConcurrentLinkedDeque queue = null;
 
     public TcpHandlerEnquiry(Socket clientSocket, String logFileName) {
         this.clientSocket = clientSocket;
         this.logFileName   = logFileName;
     }
-    public TcpHandlerEnquiry(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData, Queue queue)
+    public TcpHandlerEnquiry(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData, ConcurrentLinkedDeque queue)
     {
         this.clientSocket = clientSocket;
         this.logFileName   = logFileName;
@@ -109,7 +110,7 @@ public class TcpHandlerEnquiry implements Runnable{
                     Thread.sleep(50);
 
 //                String robotStreamDataLine = robotStreamData.getRobotIncomingString();
-                String robotStreamDataLine = (String) queue.poll();
+                String robotStreamDataLine = (String) queue.pollLast();
 
                 if(robotStreamDataLine == null){
                     oss.println("No Robot Connected to Server!");

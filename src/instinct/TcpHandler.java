@@ -20,6 +20,7 @@ package instinct;
 import java.io.*;
 import java.util.*;
 import java.net.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.regex.*;
 
 // class to handle comms over a particular tcp stream
@@ -37,13 +38,13 @@ public class TcpHandler implements Runnable{
 	protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
 	protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
 	protected RobotStreamData robotStreamData = null;
-	protected Queue queue = null;
+	protected ConcurrentLinkedDeque queue = null;
 
 	public TcpHandler(Socket clientSocket, String logFileName) {
 			this.clientSocket = clientSocket;
 			this.logFileName   = logFileName;		
 	}
-	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData, Queue queue)
+	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData, ConcurrentLinkedDeque queue)
 	{
 		this.clientSocket = clientSocket;
 		this.logFileName   = logFileName;		

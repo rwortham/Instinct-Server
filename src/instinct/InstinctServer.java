@@ -16,9 +16,10 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 package instinct;
-import java.io.*;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 // a simple command line class to run the InstinctServer
 public class InstinctServer {
@@ -26,7 +27,7 @@ public class InstinctServer {
 	public static void main(String[] args) {
 		RobotStreamData robotIncomingMessage = new RobotStreamData();
 
-		Queue<String> queue = new ConcurrentLinkedQueue<>();
+		ConcurrentLinkedDeque<String> queue = new ConcurrentLinkedDeque<>();
 
 		ThreadedServer server = new ThreadedServer(3000, robotIncomingMessage, queue); //producer
         ThreadedEnquiryServer enquiryServer = new ThreadedEnquiryServer(3001, robotIncomingMessage, queue); //consumer
