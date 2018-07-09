@@ -26,6 +26,7 @@ import java.util.regex.*;
 // class to handle comms over a particular tcp stream
 public class TcpHandler implements Runnable{
 
+	private final List<Socket> clients;
 	protected Socket clientSocket = null;
 	protected String logFileName   = null;
 	protected String cmdFileName   = null;
@@ -37,20 +38,13 @@ public class TcpHandler implements Runnable{
 	protected HashMap<Integer, String> planElements = new HashMap<Integer, String>(255);
 	protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
 	protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
-	protected RobotStreamData robotStreamData = null;
-	protected ConcurrentLinkedDeque queue = null;
 
-	public TcpHandler(Socket clientSocket, String logFileName) {
-			this.clientSocket = clientSocket;
-			this.logFileName   = logFileName;		
-	}
-	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, RobotStreamData robotStreamData, ConcurrentLinkedDeque queue)
+	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, List<Socket> clients)
 	{
 		this.clientSocket = clientSocket;
 		this.logFileName   = logFileName;		
 		this.cmdFileName   = cmdFileName;
-		this.robotStreamData = robotStreamData;
-		this.queue = queue;
+		this.clients = clients;
 	}
 
 	// process command lines and send them to the client. Handles @ includefile directives
@@ -183,8 +177,8 @@ public class TcpHandler implements Runnable{
 				if (bEcho)
 					System.out.println(line);
 
-				queue.add(line);
-				robotStreamData.setRobotIncomingString(line);
+//				queue.add(line);
+//				robotStreamData.setRobotIncomingString(line);
 
 				// write all log lines to the log file except blank ones
 				if (!line.equals(""))
@@ -215,6 +209,10 @@ public class TcpHandler implements Runnable{
 					
 					System.out.println("bye received. Closing socket.");
 					break;
+				}
+
+				for(Socket client : clients){
+					new PrintWriter(client.getOutputStream(), true).println(line);
 				}
 			}
 		    

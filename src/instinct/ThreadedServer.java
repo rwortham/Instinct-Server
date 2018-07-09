@@ -20,12 +20,13 @@ package instinct;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedServer implements Runnable{
 
-	private final ConcurrentLinkedDeque<String> queue;
+	private final List<Socket> clients;
 	protected int			serverPort   = 1024;
     protected ServerSocket	serverSocket = null;
     protected boolean		isStopped    = false;
@@ -33,9 +34,9 @@ public class ThreadedServer implements Runnable{
     protected TcpHandler	lastHandler = null;
     protected RobotStreamData robotIncomingString = null;
 
-    public ThreadedServer(int port, RobotStreamData robotIncomingString, ConcurrentLinkedDeque<String> queue){
+    public ThreadedServer(int port, List<Socket> clients){
         this.robotIncomingString = robotIncomingString;
-        this.queue = queue;
+        this.clients = clients;
         this.serverPort = port;
     }
 
@@ -61,7 +62,7 @@ public class ThreadedServer implements Runnable{
 
             Logger logger = new Logger("logs/logfile"+nLogFileCount+".txt");
             // each handler gets its own log file
-            lastHandler = new TcpHandler(clientSocket, logger.getFullFileName(), "cmd/cmdfile.txt", robotIncomingString, queue);
+            lastHandler = new TcpHandler(clientSocket, logger.getFullFileName(), "cmd/cmdfile.txt", clients);
             new Thread(lastHandler).start();
             nLogFileCount++;
 	    }

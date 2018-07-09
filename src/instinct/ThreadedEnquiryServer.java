@@ -20,85 +20,36 @@ package instinct;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedEnquiryServer implements Runnable{
 
-    private final ConcurrentLinkedDeque<String> queue;
-    protected int			serverPort   = 1024;
-    protected ServerSocket	serverSocket = null;
-    protected boolean		isStopped    = false;
-    protected Thread		runningThread= null;
-    protected TcpHandlerEnquiry	lastHandler = null;
-    protected RobotStreamData robotIncomingString = null;
+    private final List<Socket> clients;
+    protected int			serverPort;
+    protected ServerSocket	serverSocket;
 
-    public ThreadedEnquiryServer(int port, RobotStreamData robotIncomingString, ConcurrentLinkedDeque<String> queue){
-        this.robotIncomingString = robotIncomingString;
+    public ThreadedEnquiryServer(int port, List<Socket> clients){
         this.serverPort = port;
-        this.queue = queue;
+        this.clients = clients;
     }
 
     public void run(){
-        synchronized(this){
-            this.runningThread = Thread.currentThread();
-        }
+
         openServerSocket();
-        int nLogFileCount = 1;
-        while(! isStopped()){
+
+        while(true){
             Socket clientSocket = null;
             try {
                 System.out.println("Waiting for mobile connection(s).");
                 clientSocket = this.serverSocket.accept();
                 System.out.println("Accepted a mobile connection");
+                clients.add(clientSocket);
             } catch (IOException e) {
-                if(isStopped()) {
-                    System.out.println("Server Stopped.") ;
-                    return;
-                }
                 throw new RuntimeException("Error accepting client connection", e);
             }
 
-            Logger logger = new Logger("logs/logfile"+nLogFileCount+".txt");
-            // each handler gets its own log file
-            lastHandler = new TcpHandlerEnquiry(clientSocket, logger.getFullFileName(), "cmd/cmdfile.txt",robotIncomingString, queue);
-            new Thread(lastHandler).start();
-            nLogFileCount++;
-        }
-        System.out.println("Server Stopped.") ;
-    }
-
-
-    private synchronized boolean isStopped()
-    {
-        return this.isStopped;
-    }
-
-    public synchronized void stop()
-    {
-        this.isStopped = true;
-        try {
-            this.serverSocket.close();
-            if (this.lastHandler != null)
-                this.lastHandler.stop();
-        } catch (IOException e) {
-            throw new RuntimeException("Error closing server", e);
-        }
-    }
-
-    public synchronized void sendCmd(String cmd)
-    {
-        if (!this.isStopped)
-        {
-            lastHandler.sendCmd(cmd);
-        }
-    }
-
-    public synchronized void toggleLogDisplay()
-    {
-        if (!this.isStopped && (lastHandler != null))
-        {
-            lastHandler.toggleLogDisplay();
         }
     }
 
