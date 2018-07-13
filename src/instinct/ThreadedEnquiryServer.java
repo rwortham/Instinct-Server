@@ -18,19 +18,19 @@
 package instinct;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedEnquiryServer implements Runnable{
 
-    private final List<Socket> clients;
+    private final List<PrintWriter> clients;
     protected int			serverPort;
     protected ServerSocket	serverSocket;
 
-    public ThreadedEnquiryServer(int port, List<Socket> clients){
+    public ThreadedEnquiryServer(int port, List<PrintWriter> clients){
         this.serverPort = port;
         this.clients = clients;
     }
@@ -45,7 +45,8 @@ public class ThreadedEnquiryServer implements Runnable{
                 System.out.println("Waiting for mobile connection(s).");
                 clientSocket = this.serverSocket.accept();
                 System.out.println("Accepted a mobile connection");
-                clients.add(clientSocket);
+
+                clients.add(new PrintWriter(clientSocket.getOutputStream(), true));
             } catch (IOException e) {
                 throw new RuntimeException("Error accepting client connection", e);
             }

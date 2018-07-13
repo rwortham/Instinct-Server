@@ -20,13 +20,12 @@ package instinct;
 import java.io.*;
 import java.util.*;
 import java.net.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.regex.*;
 
 // class to handle comms over a particular tcp stream
 public class TcpHandler implements Runnable{
 
-	private final List<Socket> clients;
+	private final List<PrintWriter> clientPrintWriters;
 	protected Socket clientSocket = null;
 	protected String logFileName   = null;
 	protected String cmdFileName   = null;
@@ -39,12 +38,12 @@ public class TcpHandler implements Runnable{
 	protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
 	protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
 
-	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, List<Socket> clients)
+	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, List<PrintWriter> clients)
 	{
 		this.clientSocket = clientSocket;
 		this.logFileName   = logFileName;		
 		this.cmdFileName   = cmdFileName;
-		this.clients = clients;
+		this.clientPrintWriters = clients;
 	}
 
 	// process command lines and send them to the client. Handles @ includefile directives
@@ -211,8 +210,8 @@ public class TcpHandler implements Runnable{
 					break;
 				}
 
-				for(Socket client : clients){
-					new PrintWriter(client.getOutputStream(), true).println(line);
+				for(PrintWriter clientPrintWriter : clientPrintWriters){ //throws java.util.ConcurrentModificationException
+					clientPrintWriter.println(line);
 				}
 			}
 		    

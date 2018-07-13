@@ -18,6 +18,7 @@
 package instinct;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 // provides support for a multi-threaded tcp server
 public class ThreadedServer implements Runnable{
 
-	private final List<Socket> clients;
+	private final List<PrintWriter> clients;
 	protected int			serverPort   = 1024;
     protected ServerSocket	serverSocket = null;
     protected boolean		isStopped    = false;
@@ -34,7 +35,7 @@ public class ThreadedServer implements Runnable{
     protected TcpHandler	lastHandler = null;
     protected RobotStreamData robotIncomingString = null;
 
-    public ThreadedServer(int port, List<Socket> clients){
+    public ThreadedServer(int port, List<PrintWriter> clients){
         this.robotIncomingString = robotIncomingString;
         this.clients = clients;
         this.serverPort = port;

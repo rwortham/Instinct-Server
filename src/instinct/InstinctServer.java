@@ -19,6 +19,7 @@ package instinct;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,7 @@ public class InstinctServer {
 		RobotStreamData robotIncomingMessage = new RobotStreamData();
 
 		ConcurrentLinkedDeque<String> queue = new ConcurrentLinkedDeque<>();
-		List<Socket> clients = Collections.synchronizedList(new ArrayList<Socket>());
+		List<PrintWriter> clients = Collections.synchronizedList(new ArrayList<>());
 
 		ThreadedServer server = new ThreadedServer(3000, clients); //producer
         ThreadedEnquiryServer enquiryServer = new ThreadedEnquiryServer(3001, clients); //consumer
@@ -53,8 +54,13 @@ public class InstinctServer {
 					if ((str = br.readLine()) == null)
 						break; 
 					System.out.println(str);
-					if (str.equals("exit"))
+					if (str.equals("exit")) {
 						bFinished = true;
+
+						for (PrintWriter clientPrintWriter : clients) { // should close clients Sockets aswell...
+							clientPrintWriter.close();
+						}
+					}
 					else if (str.equals("!"))
 						server.toggleLogDisplay();
 					else
