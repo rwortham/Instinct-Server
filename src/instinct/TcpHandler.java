@@ -182,8 +182,8 @@ public class TcpHandler implements Runnable{
 				// write all log lines to the log file except blank ones
 				if (!line.equals(""))
 				{
-					bw.println(line);
-					bw.flush();
+					//bw.println(line);
+					//bw.flush();
 				}
 				// provide a way to close gracefully
 				if (line.equals("bye"))
@@ -212,6 +212,7 @@ public class TcpHandler implements Runnable{
 
 				for(PrintWriter clientPrintWriter : clientPrintWriters){ //throws java.util.ConcurrentModificationException
 					clientPrintWriter.println(line);
+					clientPrintWriter.flush();
 				}
 			}
 		    

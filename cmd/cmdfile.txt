@@ -4,11 +4,11 @@
 TIME
 // Ask the robot to show us its plan ID
 PLAN I R
-@ cmd/DiaPlan3.inst
+@ cmd/Plan6.inst
 // Turn off the local serial reporting as we will log output
 // also turn on sensor reporting
-REPORT 0 1 1 1 1 0
+REPORT 0 1 0 0 1 0
 //set rate
-RATE 8
+RATE 1
 // Turn on full plan monitoring - may need tuning
 PLAN M G 1 1 1 1 1 1
