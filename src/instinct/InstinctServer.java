@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 // a simple command line class to run the InstinctServer
 public class InstinctServer {
@@ -33,7 +34,7 @@ public class InstinctServer {
 		RobotStreamData robotIncomingMessage = new RobotStreamData();
 
 		ConcurrentLinkedDeque<String> queue = new ConcurrentLinkedDeque<>();
-		List<PrintWriter> clients = Collections.synchronizedList(new ArrayList<>());
+		ConcurrentLinkedQueue<PrintWriter> clients = new ConcurrentLinkedQueue();
 
 		ThreadedServer server = new ThreadedServer(3000, clients); //producer
         ThreadedEnquiryServer enquiryServer = new ThreadedEnquiryServer(3001, clients); //consumer

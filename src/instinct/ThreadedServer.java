@@ -23,11 +23,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedServer implements Runnable{
 
-	private final List<PrintWriter> clients;
+	private ConcurrentLinkedQueue<PrintWriter> clients;
 	protected int			serverPort   = 1024;
     protected ServerSocket	serverSocket = null;
     protected boolean		isStopped    = false;
@@ -35,7 +36,7 @@ public class ThreadedServer implements Runnable{
     protected TcpHandler	lastHandler = null;
     protected RobotStreamData robotIncomingString = null;
 
-    public ThreadedServer(int port, List<PrintWriter> clients){
+    public ThreadedServer(int port, ConcurrentLinkedQueue<PrintWriter> clients){
         this.robotIncomingString = robotIncomingString;
         this.clients = clients;
         this.serverPort = port;

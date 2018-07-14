@@ -22,15 +22,16 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedEnquiryServer implements Runnable{
 
-    private final List<PrintWriter> clients;
+    private final ConcurrentLinkedQueue<PrintWriter> clients;
     protected int			serverPort;
     protected ServerSocket	serverSocket;
 
-    public ThreadedEnquiryServer(int port, List<PrintWriter> clients){
+    public ThreadedEnquiryServer(int port, ConcurrentLinkedQueue clients){
         this.serverPort = port;
         this.clients = clients;
     }
