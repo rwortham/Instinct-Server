@@ -1,0 +1,624 @@
+// *** Plan Element Names follow ... ***
+
+// CompetenceElement: AheadPossibleObstacle
+!PELEM AheadPossibleObstacle=42
+
+// ActionPatternElement: SFH5b
+!PELEM SFH5b=102
+
+// CompetenceElement: NoScanning
+!PELEM NoScanning=44
+
+// Action: AheadMedium
+!PELEM AheadMedium=14
+
+// Start full scan. One cell is done every ActionValue
+// Action: ScanHuman
+!PELEM ScanHuman=81
+
+// CompetenceElement: HumanPresent
+!PELEM HumanPresent=88
+
+// Look for a human detection signal from the PIR, with a timeout of 8 seconds.
+// Action: WaitForHumanDetector
+!PELEM WaitForHumanDetector=85
+
+// Action: MoveAway
+!PELEM MoveAway=109
+
+// ActionPattern: ObjectsAround
+!PELEM ObjectsAround=54
+
+// Action: TurnRight10
+!PELEM TurnRight10=98
+
+// ActionPatternElement: TA4
+!PELEM TA4=58
+
+// ActionPatternElement: TA5
+!PELEM TA5=47
+
+// ActionPatternElement: TA1
+!PELEM TA1=103
+
+// ActionPatternElement: TA2
+!PELEM TA2=57
+
+// ActionPatternElement: TA3
+!PELEM TA3=46
+
+// ActionPatternElement: SFH6b
+!PELEM SFH6b=107
+
+// ActionPatternElement: SFH6a
+!PELEM SFH6a=83
+
+// Simple Drive that stops the robot by sleeping for a long time if the motors are stalled e.g. by collision. This Drive has the highest possible priority, so cannot be overridden.
+// Drive: ProtectMotors
+!PELEM ProtectMotors=21
+
+// Action: AheadSlow
+!PELEM AheadSlow=12
+
+// ActionPatternElement: SCAS6
+!PELEM SCAS6=26
+
+// ActionPatternElement: SCAS5
+!PELEM SCAS5=112
+
+// ActionPatternElement: SCAS4
+!PELEM SCAS4=30
+
+// ActionPatternElement: SCAS3
+!PELEM SCAS3=28
+
+// ActionPatternElement: SCAS2
+!PELEM SCAS2=25
+
+// ActionPatternElement: SCAS1
+!PELEM SCAS1=24
+
+// CompetenceElement: NoHumanPresent
+!PELEM NoHumanPresent=89
+
+// Raise head to point upwards
+// Action: LookUp
+!PELEM LookUp=31
+
+// ActionPatternElement: OA2
+!PELEM OA2=56
+
+// ActionPatternElement: OA1
+!PELEM OA1=55
+
+// Activated when I think I've spotted a human. Sense hysteresis means it persists with this drive until completed, unless overridden by a higher priority drive
+// Drive: DetectHuman
+!PELEM DetectHuman=75
+
+// Drive forward, adjusting speed to free space ahead
+// Competence: ForwardSafely
+!PELEM ForwardSafely=16
+
+// look ahead to point to human
+// Action: LookForwardForHuman
+!PELEM LookForwardForHuman=108
+
+// Stop Vertical head scanning
+// Action: StopVerticalScan
+!PELEM StopVerticalScan=29
+
+// Check if we really need to turn to face a more open angle, and if we do then do it.
+// Competence: TurnIfNecessary
+!PELEM TurnIfNecessary=104
+
+// ActionPatternElement: SFH5a
+!PELEM SFH5a=99
+
+// Action: TurnRight180
+!PELEM TurnRight180=111
+
+// ActionPatternElement: SFH8
+!PELEM SFH8=86
+
+// CompetenceElement: FS1
+!PELEM FS1=17
+
+// ActionPatternElement: SFH3
+!PELEM SFH3=78
+
+// CompetenceElement: AheadBlocked
+!PELEM AheadBlocked=4
+
+// Waits until we have a complete scan of the territory ahead
+// Action: WaitForScanning
+!PELEM WaitForScanning=41
+
+// ActionPatternElement: SFH7
+!PELEM SFH7=84
+
+// CompetenceElement: FS2
+!PELEM FS2=18
+
+// ActionPatternElement: SFH4
+!PELEM SFH4=79
+
+// ActionPattern: ObjectsNear
+!PELEM ObjectsNear=72
+
+// Roam around once I can see where I'm going
+// Drive: Explore
+!PELEM Explore=1
+
+// Action: FlashSuccess
+!PELEM FlashSuccess=101
+
+// Check if we have a human in view
+// Competence: CheckForHuman
+!PELEM CheckForHuman=87
+
+// Action: Wait1Second
+!PELEM Wait1Second=66
+
+// Action: AheadFull
+!PELEM AheadFull=15
+
+// Lower head to point ahead
+// Action: UnfurlHead
+!PELEM UnfurlHead=69
+
+// Raise head to point to body
+// Action: TuckHead
+!PELEM TuckHead=63
+
+// Waits until we have a complete scan
+// Action: WaitForScan
+!PELEM WaitForScan=82
+
+// Stop Horizontal head scanning
+// Action: StopHorizontalScan
+!PELEM StopHorizontalScan=27
+
+// Action: Turn45Degrees
+!PELEM Turn45Degrees=11
+
+// ActionPattern: ScanForHuman
+!PELEM ScanForHuman=76
+
+// Raise head to point to human
+// Action: LookUpForHuman
+!PELEM LookUpForHuman=80
+
+// If I get too close to an IR reflector, then take avoiding action
+// Drive: EmergencyAvoidObstacle
+!PELEM EmergencyAvoidObstacle=71
+
+// Point head forwards
+// Action: HeadStraight
+!PELEM HeadStraight=64
+
+// Action: TurnToAvoid
+!PELEM TurnToAvoid=43
+
+// ActionPattern: FoundAHuman
+!PELEM FoundAHuman=90
+
+// (NULL)
+// Action: FlashFail
+!PELEM FlashFail=117
+
+// ActionPatternElement: SAS5
+!PELEM SAS5=65
+
+// ActionPatternElement: SAS4
+!PELEM SAS4=62
+
+// ActionPatternElement: SAS7
+!PELEM SAS7=67
+
+// ActionPatternElement: SAS6
+!PELEM SAS6=61
+
+// ActionPatternElement: SAS1
+!PELEM SAS1=34
+
+// ActionPatternElement: SAS3
+!PELEM SAS3=37
+
+// ActionPatternElement: SAS2
+!PELEM SAS2=35
+
+// ActionPattern: SignalCrashAndSleep
+!PELEM SignalCrashAndSleep=23
+
+// ActionPatternElement: SAS9
+!PELEM SAS9=68
+
+// ActionPatternElement: SAS8
+!PELEM SAS8=36
+
+// ActionPattern: StopAndSleep
+!PELEM StopAndSleep=33
+
+// ActionPattern: AllClear
+!PELEM AllClear=49
+
+// ActionPatternElement: FAH7
+!PELEM FAH7=110
+
+// ActionPatternElement: FAH6
+!PELEM FAH6=95
+
+// ActionPatternElement: FAH5
+!PELEM FAH5=97
+
+// ActionPatternElement: FAH4
+!PELEM FAH4=96
+
+// ActionPatternElement: FAH3
+!PELEM FAH3=94
+
+// ActionPatternElement: FAH2
+!PELEM FAH2=93
+
+// ActionPatternElement: FAH1
+!PELEM FAH1=92
+
+// Simple Drive that ensures if we are moving forwards then we are scanning around. It seems like a basic instinct is to look when we are moving.
+// Drive: MovingSoLook
+!PELEM MovingSoLook=39
+
+// ActionPatternElement: AC2
+!PELEM AC2=51
+
+// ActionPatternElement: AC1
+!PELEM AC1=50
+
+// CompetenceElement: FS3
+!PELEM FS3=19
+
+// CompetenceElement: FS4
+!PELEM FS4=20
+
+// ActionPattern: NoHuman
+!PELEM NoHuman=114
+
+// ActionPatternElement: RTA1
+!PELEM RTA1=6
+
+// ActionPatternElement: RTA3
+!PELEM RTA3=53
+
+// ActionPatternElement: RTA2
+!PELEM RTA2=7
+
+// ActionPatternElement: RTA5
+!PELEM RTA5=48
+
+// ActionPatternElement: RTA4
+!PELEM RTA4=8
+
+// ActionPatternElement: RTA6
+!PELEM RTA6=9
+
+// CompetenceElement: TIN2
+!PELEM TIN2=106
+
+// CompetenceElement: TIN1
+!PELEM TIN1=105
+
+// Action: Stop
+!PELEM Stop=13
+
+// Action: FlashWarning
+!PELEM FlashWarning=113
+
+// ActionPattern: TurnAvoid
+!PELEM TurnAvoid=45
+
+// Action: MoveBack
+!PELEM MoveBack=10
+
+// Simple Drive that stops the robot periodically when it is near objects. This extends battery life and avoids the robot stopping in open areas when it may be damaged.
+// Drive: Sleep
+!PELEM Sleep=32
+
+// CompetenceElement: AheadFree
+!PELEM AheadFree=3
+
+// Reset The Human Detector
+// Action: ResetHumanDetector
+!PELEM ResetHumanDetector=91
+
+// Sleep for 10 Seconds
+// Action: Sleep10Seconds
+!PELEM Sleep10Seconds=38
+
+// ActionPatternElement: NH1
+!PELEM NH1=115
+
+// ActionPatternElement: NH2
+!PELEM NH2=116
+
+// ActionPatternElement: ON2
+!PELEM ON2=74
+
+// ActionPatternElement: ON1
+!PELEM ON1=73
+
+// Drive forward, avoiding objects as they are sensed
+// Competence: ForwardAvoidingObstacle
+!PELEM ForwardAvoidingObstacle=2
+
+// ActionPattern: ReverseTurnAvoid
+!PELEM ReverseTurnAvoid=5
+
+// Start slow Horizontal head scanning
+// Action: SlowHScan
+!PELEM SlowHScan=52
+
+// Action: TurnLeft20
+!PELEM TurnLeft20=100
+
+// ActionPatternElement: SAS11
+!PELEM SAS11=59
+
+// ActionPatternElement: SAS10
+!PELEM SAS10=70
+
+// ActionPatternElement: SAS12
+!PELEM SAS12=60
+
+// Sleep for 15 Seconds
+// Action: Sleep15Seconds
+!PELEM Sleep15Seconds=22
+
+// ActionPatternElement: SFH1
+!PELEM SFH1=77
+
+// Start fast Horizontal head scanning
+// Action: FastHorizontalScan
+!PELEM FastHorizontalScan=40
+
+// *** Plan output complete. RobotSenses and RobotActions follow ... ***
+
+// Front virtual sensor calculated from (FrontRight + RearRight)/2  - max 420mm
+// RobotSense: IR_Right
+//	SenseID=14
+!RSENSE IR_Right=14
+
+// Rear left IR sensor - max 600mm
+// RobotSense: IR_RearLeft
+//	SenseID=3
+!RSENSE IR_RearLeft=3
+
+// True when at least one full vertical head scan has been completed.
+// RobotSense: VScanReady
+//	SenseID=22
+!RSENSE VScanReady=22
+
+// Ultrasonic range finder mounted on head. 0mm to 5000mm
+// RobotSense: RangeFinder
+//	SenseID=10
+!RSENSE RangeFinder=10
+
+// Front right IR sensor - max 600mm
+// RobotSense: IR_FrontRight
+//	SenseID=1
+!RSENSE IR_FrontRight=1
+
+// Returns ID of edge nearest to an obstacle (0-3), or 4 if no obstacle detected
+// RobotSense: IR_NearestEdge
+//	SenseID=16
+!RSENSE IR_NearestEdge=16
+
+// Rear virtual sensor calculated from (RearRight + RearLeft)/2  - max 420mm
+// RobotSense: IR_Rear
+//	SenseID=6
+!RSENSE IR_Rear=6
+
+// Returns 1 if there may be a human ahead of us. This depends on the PIR sensor, the distance to the object ahead, and the distance travelled since we detected the last human. There may be false positives, so we will need to investigate further to be sure.
+// RobotSense: HumanAhead
+//	SenseID=23
+!RSENSE HumanAhead=23
+
+// Returns distance for emergency avoidance. Returns 600 when not moving and human sensed.
+// RobotSense: EmergAvoidDist
+//	SenseID=27
+!RSENSE EmergAvoidDist=27
+
+// Front virtual sensor calculated from (FrontLeft + RearLeft)/2  - max 420mm
+// RobotSense: IR_Left
+//	SenseID=13
+!RSENSE IR_Left=13
+
+// True when at least one entire head scan has been completed.
+// RobotSense: ScanReady
+//	SenseID=24
+!RSENSE ScanReady=24
+
+// Minimum distance scanned by head. 0 to 5000mm. Only valid when ScanReady is true, otherwise returns zero.
+// RobotSense: MinRangeAhead
+//	SenseID=20
+!RSENSE MinRangeAhead=20
+
+// Front virtual sensor calculated from (FrontRight + FrontLeft)/2  - max 420mm
+// RobotSense: IR_Front
+//	SenseID=5
+!RSENSE IR_Front=5
+
+// Returns true if the robot tracks are moving
+// RobotSense: Moving
+//	SenseID=26
+!RSENSE Moving=26
+
+// Front left IR sensor - max 600mm
+// RobotSense: IR_FrontLeft
+//	SenseID=2
+!RSENSE IR_FrontLeft=2
+
+// Returns vertical scan interval if robot is stopped, zero otherwise.
+// RobotSense: StoppedVScanInterval
+//	SenseID=19
+!RSENSE StoppedVScanInterval=19
+
+// Sum of drive motor currents in mA
+// RobotSense: MotorCurrent
+//	SenseID=17
+!RSENSE MotorCurrent=17
+
+// 1 if robot is sleeping
+// RobotSense: Sleeping
+//	SenseID=8
+!RSENSE Sleeping=8
+
+// True when at least one full horizontal head scan has been completed.
+// RobotSense: HScanReady
+//	SenseID=21
+!RSENSE HScanReady=21
+
+// Returns ID of corner nearest to an obstacle (0-3), or 4 if no obstacle detected
+// RobotSense: IR_NearestCorner
+//	SenseID=15
+!RSENSE IR_NearestCorner=15
+
+// Returns the result of the human detector. 0 = not detected, 1 = maybe, 2 = confirmed.
+// RobotSense: ConfHuman
+//	SenseID=25
+!RSENSE ConfHuman=25
+
+// PIR sensor mounted on head. Can sense humans but also sometimes triggers when its moved.
+// RobotSense: PIR
+//	SenseID=12
+!RSENSE PIR=12
+
+// Returns horizontal scan interval if robot is moving forwards, zero otherwise.
+// RobotSense: MovingHScanInterval
+//	SenseID=18
+!RSENSE MovingHScanInterval=18
+
+// Just a random number 1-100
+// RobotSense: Random
+//	SenseID=7
+!RSENSE Random=7
+
+// Rear right IR sensor - max 600mm
+// RobotSense: IR_RearRight
+//	SenseID=4
+!RSENSE IR_RearRight=4
+
+// Minimum of IR_FrontLeft, IR_FrontRight and IR_Front
+// RobotSense: FrontRange
+//	SenseID=11
+!RSENSE FrontRange=11
+
+// Always returns 50 - Good for testing
+// RobotSense: Fifty
+//	SenseID=9
+!RSENSE Fifty=9
+
+// Waits until there is vertical scan data in column defined by ActionValue
+// RobotAction: WaitVScan
+//	ActionID=16
+!RACTION WaitVScan=16
+
+// Flash any primary colour for Actionvalue mS. Lowest 3 bits of Actionvalue are RGB, remainder is delay in mS.
+// RobotAction: FlashColour
+//	ActionID=21
+!RACTION FlashColour=21
+
+// Waits until there is data in all head matrix cells
+// RobotAction: WaitScan
+//	ActionID=18
+!RACTION WaitScan=18
+
+// Reset the human detector
+// RobotAction: ResetHD
+//	ActionID=17
+!RACTION ResetHD=17
+
+// Waits until a human definitely detected, with a timeout of nActionValue
+// RobotAction: ConfirmHuman
+//	ActionID=20
+!RACTION ConfirmHuman=20
+
+// Stop and rotate a certain number of degrees clockwise
+// RobotAction: Turn
+//	ActionID=3
+!RACTION Turn=3
+
+// Read the sensor matrix and turn to the most open path. The ActionValue is used to decide which vertical row of sensor cells to use.
+// RobotAction: TurnToMostOpen
+//	ActionID=13
+!RACTION TurnToMostOpen=13
+
+// Waits until there is horizontal scan data in row defined by ActionValue
+// RobotAction: WaitHScan
+//	ActionID=15
+!RACTION WaitHScan=15
+
+// Stop and set rudder to 0
+// RobotAction: Stop
+//	ActionID=4
+!RACTION Stop=4
+
+// A test action that always fails
+// RobotAction: Fail
+//	ActionID=9
+!RACTION Fail=9
+
+// Move robot head verically in degrees 0-180
+// RobotAction: VMoveHead
+//	ActionID=8
+!RACTION VMoveHead=8
+
+// Start scanning robot head sensor vertically and horizontally, one cell every ActionValue milliseconds
+// RobotAction: Scan
+//	ActionID=19
+!RACTION Scan=19
+
+// Set the speed 0-100%
+// RobotAction: SetSpeed
+//	ActionID=1
+!RACTION SetSpeed=1
+
+// Move by a certain number of millimeters
+// RobotAction: MoveBy
+//	ActionID=2
+!RACTION MoveBy=2
+
+// Abort sleep mode
+// RobotAction: Wake
+//	ActionID=6
+!RACTION Wake=6
+
+// Read the IR sensors and turns to the most open path by ActionValue degrees. 
+// RobotAction: TurnMostOpenDir
+//	ActionID=14
+!RACTION TurnMostOpenDir=14
+
+// Move robot head horizontally in degrees 0-180
+// RobotAction: HMoveHead
+//	ActionID=7
+!RACTION HMoveHead=7
+
+// Sleep for ActionValue seconds
+// RobotAction: Sleep
+//	ActionID=5
+!RACTION Sleep=5
+
+// Start scanning robot head sensor vertically, once every ActionValue milliseconds
+// RobotAction: VScan
+//	ActionID=11
+!RACTION VScan=11
+
+// Start scanning robot head sensor horizontally, once every ActionValue milliseconds
+// RobotAction: HScan
+//	ActionID=10
+!RACTION HScan=10
+
+// Just wait at this plan step for ActionValue mS. Useful after starting scanning before deciding what to do.
+// RobotAction: Wait
+//	ActionID=12
+!RACTION Wait=12
+
+// *** Output completed. ***
