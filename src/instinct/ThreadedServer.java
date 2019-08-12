@@ -18,19 +18,27 @@
 package instinct;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 // provides support for a multi-threaded tcp server
 public class ThreadedServer implements Runnable{
 
-    protected int			serverPort   = 1024;
+	private ConcurrentLinkedQueue<PrintWriter> clients;
+	protected int			serverPort   = 1024;
     protected ServerSocket	serverSocket = null;
     protected boolean		isStopped    = false;
     protected Thread		runningThread= null;
     protected TcpHandler	lastHandler = null;
+    protected RobotStreamData robotIncomingString = null;
 
-    public ThreadedServer(int port){
+    public ThreadedServer(int port, ConcurrentLinkedQueue<PrintWriter> clients){
+        this.robotIncomingString = robotIncomingString;
+        this.clients = clients;
         this.serverPort = port;
     }
 
@@ -43,7 +51,9 @@ public class ThreadedServer implements Runnable{
 	    while(! isStopped()){
 	        Socket clientSocket = null;
 	        try {
+                System.out.println("Waiting for connection(s).");
 	            clientSocket = this.serverSocket.accept();
+                System.out.println("Accepted a connection");
 	        } catch (IOException e) {
 	            if(isStopped()) {
 	                System.out.println("Server Stopped.") ;
@@ -51,10 +61,12 @@ public class ThreadedServer implements Runnable{
 	            }
 	            throw new RuntimeException("Error accepting client connection", e);
 	        }
-	        // each handler gets its own log file
-	        lastHandler = new TcpHandler(clientSocket, "logs/logfile"+nLogFileCount+".txt", "cmd/cmdfile.txt");
-	        new Thread(lastHandler).start();
-	        nLogFileCount++;
+
+            Logger logger = new Logger("logs/logfile"+nLogFileCount+".txt");
+            // each handler gets its own log file
+            lastHandler = new TcpHandler(clientSocket, logger.getFullFileName(), "cmd/cmdfile.txt", clients);
+            new Thread(lastHandler).start();
+            nLogFileCount++;
 	    }
 	    System.out.println("Server Stopped.") ;
 	}

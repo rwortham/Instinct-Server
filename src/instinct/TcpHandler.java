@@ -20,11 +20,13 @@ package instinct;
 import java.io.*;
 import java.util.*;
 import java.net.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.*;
 
 // class to handle comms over a particular tcp stream
 public class TcpHandler implements Runnable{
 
+	private ConcurrentLinkedQueue<PrintWriter> clientPrintWriters;
 	protected Socket clientSocket = null;
 	protected String logFileName   = null;
 	protected String cmdFileName   = null;
@@ -37,15 +39,12 @@ public class TcpHandler implements Runnable{
 	protected HashMap<Integer, String> robotActions = new HashMap<Integer, String>(100);
 	protected HashMap<Integer, String> robotSenses = new HashMap<Integer, String>(100);
 
-	public TcpHandler(Socket clientSocket, String logFileName) {
-			this.clientSocket = clientSocket;
-			this.logFileName   = logFileName;		
-	}
-	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName)
+	public TcpHandler(Socket clientSocket, String logFileName, String cmdFileName, ConcurrentLinkedQueue<PrintWriter> clients)
 	{
 		this.clientSocket = clientSocket;
 		this.logFileName   = logFileName;		
 		this.cmdFileName   = cmdFileName;
+		this.clientPrintWriters = clients;
 	}
 
 	// process command lines and send them to the client. Handles @ includefile directives
@@ -97,7 +96,6 @@ public class TcpHandler implements Runnable{
 			// to resolve node, sense and action IDs to their respective names
 		    Pattern p = Pattern.compile("[ESPFZ]");
 		    String[] comparators = {"EQ","NE", "GT", "LT", "TR", "FL"};
-		    
 		    while (!isStopped && (line = iss.readLine()) != null)
 			{
 				boolean bEcho = true; // default is to echo lines from the robot back to the console
@@ -176,15 +174,17 @@ public class TcpHandler implements Runnable{
 				}
 				
 				line = line.trim(); // remove any trailing spaces before logging
-				
 				if (bEcho)
 					System.out.println(line);
-				
+
+//				queue.add(line);
+//				robotStreamData.setRobotIncomingString(line);
+
 				// write all log lines to the log file except blank ones
 				if (!line.equals(""))
 				{
-					bw.println(line);
-					bw.flush();
+					//bw.println(line);
+					//bw.flush();
 				}
 				// provide a way to close gracefully
 				if (line.equals("bye"))
@@ -209,6 +209,11 @@ public class TcpHandler implements Runnable{
 					
 					System.out.println("bye received. Closing socket.");
 					break;
+				}
+
+				for(PrintWriter clientPrintWriter : clientPrintWriters){
+					clientPrintWriter.println(line);
+					clientPrintWriter.flush();
 				}
 			}
 		    
